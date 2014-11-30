@@ -11,9 +11,9 @@ public class Expense {
 
 	@GET
 	@Path("/{param}")
-	public Response getMsg(@PathParam("param") String msg) {
+	public Response add(@PathParam("param") String id) {
  
-		String output = "Deploying from eclipse The expense details for id " + msg+" is Test expense";
+		String output = "Deploying from eclipse The expense details for id " + id+" is Test expense";
  
 		return Response.status(200).entity(output).build();
  

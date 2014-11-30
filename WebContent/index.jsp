@@ -31,7 +31,7 @@
 
 <%
     if (ec2 == null) {
-        AWSCredentialsProvider credentialsProvider = new ClasspathPropertiesFileCredentialsProvider();
+        AWSCredentialsProvider credentialsProvider = new DefaultAWSCredentialsProviderChain();
         ec2    = new AmazonEC2Client(credentialsProvider);
         s3     = new AmazonS3Client(credentialsProvider);
         dynamo = new AmazonDynamoDBClient(credentialsProvider);
