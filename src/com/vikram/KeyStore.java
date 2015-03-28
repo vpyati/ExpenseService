@@ -5,24 +5,29 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
-import com.vikram.beans.Temp;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.vikram.model.KeyValue;
+import com.vikram.model.Temp;
 
 
 @Path("/keyvalue")
 @Produces("application/json")
 public class KeyStore {
 	
+
+	@Autowired
 	private Temp temp;
 	
 	
 	@GET
-	public Temp get(@QueryParam("keys") String keysJson) {
+	public KeyValue get(@QueryParam("keys") String keysJson) {
  
-		//String authCode = headers.getRequestHeader("X-HEADER-AUTH_CODE").get(0);
-		
-		return new Temp("Vikram","Pyati");
-		//return "{name:vikram}";
- 
+		KeyValue kvs = new KeyValue();
+		kvs.addKeyValuePairs("firstName", "Vikram");
+		kvs.addKeyValuePairs("lastName", "pyati");
+		kvs.addKeyValuePairs("temp", temp.toString());
+		return kvs; 
 	}
 
 }
