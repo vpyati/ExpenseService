@@ -1,4 +1,4 @@
-package com.vikram.beans;
+package com.vikram.model;
 
 public class Temp {
 	
