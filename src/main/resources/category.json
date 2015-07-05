@@ -1,0 +1,157 @@
+{
+    "catId": "0",
+    "catName": "Root",
+    "children": [
+        {
+            "catId": "1",
+            "catName": "Household",
+            "children": [
+                {
+                    "catId": "9",
+                    "catName": "Maintainence",
+                    "children": []
+                },
+                {
+                    "catId": "10",
+                    "catName": "Electric Bill",
+                    "children": []
+                },
+                {
+                    "catId": "11",
+                    "catName": "Water bill",
+                    "children": []
+                },
+                {
+                    "catId": "12",
+                    "catName": "Tatasky",
+                    "children": []
+                }
+            ]
+        },
+        {
+            "catId": "2",
+            "catName": "Transport",
+            "children": [
+                {
+                    "catId": "13",
+                    "catName": "Two-Wheeler",
+                    "children": []
+                },
+                {
+                    "catId": "14",
+                    "catName": "Four-Wheeler",
+                    "children": []
+                },
+                {
+                    "catId": "15",
+                    "catName": "Train",
+                    "children": []
+                },
+                {
+                    "catId": "16",
+                    "catName": "Bus",
+                    "children": []
+                },
+                {
+                    "catId": "17",
+                    "catName": "Cab",
+                    "children": []
+                }
+            ]
+        },
+        {
+            "catId": "3",
+            "catName": "Telecom",
+            "children": [
+                {
+                    "catId": "18",
+                    "catName": "Phone Bill",
+                    "children": []
+                },
+                {
+                    "catId": "19",
+                    "catName": "Internet",
+                    "children": []
+                }
+            ]
+        },
+        {
+            "catId": "4",
+            "catName": "Investment",
+            "children": [
+                {
+                    "catId": "20",
+                    "catName": "ESPP",
+                    "children": []
+                },
+                {
+                    "catId": "21",
+                    "catName": "Reliance Mutual Fund",
+                    "children": []
+                },
+                {
+                    "catId": "22",
+                    "catName": "HDFC Mutual Fund",
+                    "children": []
+                },
+                {
+                    "catId": "23",
+                    "catName": "HDFC premium",
+                    "children": []
+                }
+            ]
+        },
+        {
+            "catId": "5",
+            "catName": "Food",
+            "children": [
+                {
+                    "catId": "24",
+                    "catName": "Grocery",
+                    "children": []
+                },
+                {
+                    "catId": "25",
+                    "catName": "Vegetables",
+                    "children": []
+                },
+                {
+                    "catId": "26",
+                    "catName": "Restaurants",
+                    "children": []
+                }
+            ]
+        },
+        {
+            "catId": "6",
+            "catName": "Clothes",
+            "children": []
+        },
+        {
+            "catId": "7",
+            "catName": "Charity",
+            "children": []
+        },
+        {
+            "catId": "8",
+            "catName": "Miscellaneous",
+            "children": []
+        },
+        {
+            "catId": "27",
+            "catName": "Loans",
+            "children": [
+                {
+                    "catId": "28",
+                    "catName": "Home Loan",
+                    "children": []
+                },
+                {
+                    "catId": "30",
+                    "catName": "Car Loan",
+                    "children": []
+                }
+            ]
+        }
+    ]
+}
