@@ -1,25 +1,29 @@
 package com.vikram;
 
-import java.util.Date;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vikram.db.ExpenseStore;
 import com.vikram.model.Expense;
+import com.vikram.openidconnect.login.core.identity.Identity;
+import com.vikram.util.RequestContext;
+import com.vikram.util.RequestContext.RequestKey;
 
 @RestController
 @RequestMapping("expense")
 public class ExpenseController {
 
-
+	@Autowired
+	private ExpenseStore expenseStore;
+		
 	@RequestMapping(method = RequestMethod.GET)
 	public Expense get(@RequestParam("id") String id) { 		
 		Expense exp = new Expense();
 		exp.setCategory(2);
-		exp.setDate(new Date());
 		exp.setDescription("Test");
 		
 		return exp;
@@ -28,8 +32,10 @@ public class ExpenseController {
 	@RequestMapping(method = RequestMethod.POST)
 	public Expense add(@RequestBody() Expense expense){
 		
+		Identity identity = RequestContext.get().getValue(RequestKey.IDENTITY);
+		expense.setuID(identity.getEmailAddress());
 		
-		
+		expenseStore.add(expense);
 		
 		return expense;
 	}

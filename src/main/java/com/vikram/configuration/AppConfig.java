@@ -17,11 +17,11 @@ import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
-import com.vikram.IdentityContext;
-import com.vikram.IdentityContextImpl;
 import com.vikram.category.CategoryTree;
+import com.vikram.db.ExpenseStore;
 import com.vikram.db.KeyValueStore;
 import com.vikram.db.awsdynamodb.AwsDynamoDBKeyValueStore;
+import com.vikram.db.awsdynamodb.AwsExpenseStore;
 import com.vikram.openidconnect.login.core.input.ICredentialInput;
 import com.vikram.openidconnect.login.core.input.IOAuthCredentials;
 import com.vikram.openidconnect.login.core.input.OAuthCredentials;
@@ -31,6 +31,12 @@ import com.vikram.openidconnect.login.core.providers.OAuthProvider;
 @ComponentScan("com.vikram")
 @ImportResource("classpath:META-INF/oal-core.xml")
 public class AppConfig {
+	
+	
+	@Bean
+	public ExpenseStore getExpenseStore(){
+		return new AwsExpenseStore();
+	}
 	
 	@Bean
 	public AmazonDynamoDB getAmazonDynamoDb(){
@@ -54,11 +60,6 @@ public class AppConfig {
 		return new CategoryTree();
 	}
 	
-	@Bean
-	public IdentityContext getIdentityContext(){
-		return new IdentityContextImpl();
-	}
-
 	@Bean
 	public IOAuthCredentials getOauthCredentials(){
 		return new OAuthCredentials(getCredentials());

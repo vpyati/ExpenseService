@@ -7,7 +7,7 @@
 	<packaging>war</packaging>
 	<properties>
 		<cxf.version>3.0.4</cxf.version>
-		<aws-sdk-version>1.8.10.2</aws-sdk-version>
+		<aws-sdk-version>1.10.67</aws-sdk-version>
 		<org.springframework.version>4.0.8.RELEASE</org.springframework.version>
 		<spring.security.version>3.2.3.RELEASE</spring.security.version>
 	</properties>

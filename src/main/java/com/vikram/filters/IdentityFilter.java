@@ -2,9 +2,7 @@ package com.vikram.filters;
 
 import java.io.IOException;
 
-import javax.servlet.Filter;
 import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -12,28 +10,31 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpException;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+import org.springframework.web.filter.GenericFilterBean;
 
-import com.vikram.IdentityContext;
 import com.vikram.openidconnect.login.core.identity.Identity;
 import com.vikram.openidconnect.login.core.identity.IdentityAccessor;
 import com.vikram.openidconnect.login.core.providers.OAuthProvider;
+import com.vikram.util.Environment;
+import com.vikram.util.RequestContext;
+import com.vikram.util.RequestContext.RequestKey;
+import com.vikram.util.TestIdentity;
 
-public class IdentityFilter implements Filter{
+public class IdentityFilter extends GenericFilterBean{
 
-	@Autowired
 	private IdentityAccessor identityAccessor;
-	
-	@Autowired
-	private IdentityContext identityContext;
-	
-	@Override
-	public void destroy() {
-		identityContext.setIdentity(null);
-	}
-
+		
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
+		
+		if(Environment.isDevelopment(request)){			
+			Identity identity = TestIdentity.get();
+			RequestContext.get().setValue(RequestKey.IDENTITY, identity);
+			filterChain.doFilter(request, response);		
+			return;		
+		}
 		
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
@@ -49,7 +50,7 @@ public class IdentityFilter implements Filter{
 		Identity identity;
 		try {
 			identity = identityAccessor.getIdentity(accessToken, OAuthProvider.valueOf(provider));
-			identityContext.setIdentity(identity);
+			RequestContext.get().setValue(RequestKey.IDENTITY, identity);
 		} catch (HttpException e) {
 			httpResponse.setStatus(403);
 			return;
@@ -59,8 +60,11 @@ public class IdentityFilter implements Filter{
 	}
 
 	@Override
-	public void init(FilterConfig arg0) throws ServletException {
+	protected void initFilterBean() throws ServletException {
+		final WebApplicationContext applicationContext = WebApplicationContextUtils
+	            .getWebApplicationContext(this.getServletContext());
 		
+		identityAccessor = applicationContext.getBean(IdentityAccessor.class);
 	}
 
 }
