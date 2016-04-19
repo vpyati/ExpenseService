@@ -127,6 +127,7 @@
 				<configuration>
 					<warSourceDirectory>WebContent</warSourceDirectory>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
+					<warName>services</warName>
 				</configuration>
 			</plugin>
 		</plugins>
