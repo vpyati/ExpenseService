@@ -17,6 +17,7 @@ import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
+import com.vikram.category.CategoryAutoCompleteDictionary;
 import com.vikram.category.CategoryTree;
 import com.vikram.db.ExpenseStore;
 import com.vikram.db.KeyValueStore;
@@ -32,6 +33,10 @@ import com.vikram.openidconnect.login.core.providers.OAuthProvider;
 @ImportResource("classpath:META-INF/oal-core.xml")
 public class AppConfig {
 	
+	@Bean
+	public CategoryAutoCompleteDictionary getAutoCompleteDictionary(){
+		return new CategoryAutoCompleteDictionary();
+	}
 	
 	@Bean
 	public ExpenseStore getExpenseStore(){
