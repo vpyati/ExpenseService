@@ -2,6 +2,11 @@ package com.vikram.model;
 
 import java.util.Date;
 
+import com.amazonaws.util.StringUtils;
+import com.vikram.category.Category;
+import com.vikram.category.CategoryTree;
+import com.vikram.openidconnect.login.core.identity.Identity;
+
 public class Expense {
 	
 	private String name;
@@ -54,5 +59,34 @@ public class Expense {
 	public void setTags(String tags) {
 		this.tags = tags;
 	}
+	
+	public boolean isValid() {
+
+		return StringUtils.isNullOrEmpty(name)
+				|| StringUtils.isNullOrEmpty(category) || creationDate == null;
+
+	}
+	
+	/**
+	 * Convert the raw Expense to something which can be inserted into DB
+	 */
+	public void convert(Identity identity, CategoryTree tree){
+		
+		this.setuID(identity.getEmailAddress());
+		if(StringUtils.isNullOrEmpty(this.getDescription())){
+			this.setDescription(this.getName());
+		}
+		
+		setCategoryName(tree);
+	}
+	
+	private void setCategoryName(CategoryTree tree) {
+		Category category = tree.findByCatName(this.getCategory());
+		if(category == null){
+			category = tree.getMiscellaneousCategory();
+		}		
+		this.setCategory(String.valueOf(category.getCatId()));
+	}
+
 	
 }

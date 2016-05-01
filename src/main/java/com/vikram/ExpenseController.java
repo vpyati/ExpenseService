@@ -1,5 +1,7 @@
 package com.vikram;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vikram.category.Category;
 import com.vikram.category.CategoryTree;
 import com.vikram.db.ExpenseStore;
 import com.vikram.model.Expense;
@@ -39,15 +40,18 @@ public class ExpenseController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public Expense add(@RequestBody() Expense expense){
+	public Expense add(@RequestBody() Expense expense, HttpServletResponse response){
+		
+		if(!expense.isValid()){
+			response.setStatus(400);
+			return null;
+		}
 		
 		logger.info("Fetching identity from context");
 		Identity identity = RequestContext.get().getValue(RequestKey.IDENTITY);
 		logger.info("Fetching identity from context ---- completed -> "+identity==null?"Unable to fetch identity":identity.getEmailAddress());
-
-		expense.setuID(identity.getEmailAddress());
 		
-		setCategoryName(expense);
+		expense.convert(identity, tree);
 		
 		logger.info("Trying to store identity using Expense store");
 		expenseStore.add(expense);
@@ -55,14 +59,6 @@ public class ExpenseController {
 		return expense;
 	}
 
-	private void setCategoryName(Expense expense) {
-		Category category = tree.findByCatName(expense.getCategory());
-		if(category == null){
-			category = tree.getMiscellaneousCategory();
-		}		
-		expense.setCategory(String.valueOf(category.getCatId()));
-	}
-	
 	@RequestMapping(method = RequestMethod.PUT)
 	public Expense update(@RequestParam("expense") String expense){
 		return null;
