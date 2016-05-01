@@ -1,5 +1,7 @@
 package com.vikram;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,24 +26,30 @@ public class ExpenseController {
 	
 	@Autowired
 	private CategoryTree tree;
+	
+	
+	private static Logger logger = LoggerFactory.getLogger(ExpenseController.class);
 		
 	@RequestMapping(method = RequestMethod.GET)
 	public Expense get(@RequestParam("id") String id) { 		
 		Expense exp = new Expense();
 		exp.setCategory("2");
-		exp.setDescription("Test");
-		
+		exp.setDescription("Test");		
 		return exp;
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
 	public Expense add(@RequestBody() Expense expense){
 		
+		logger.info("Fetching identity from context");
 		Identity identity = RequestContext.get().getValue(RequestKey.IDENTITY);
+		logger.info("Fetching identity from context ---- completed -> "+identity==null?"Unable to fetch identity":identity.getEmailAddress());
+
 		expense.setuID(identity.getEmailAddress());
 		
 		setCategoryName(expense);
 		
+		logger.info("Trying to store identity using Expense store");
 		expenseStore.add(expense);
 		
 		return expense;
