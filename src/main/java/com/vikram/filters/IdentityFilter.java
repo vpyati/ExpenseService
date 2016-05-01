@@ -32,7 +32,7 @@ public class IdentityFilter extends GenericFilterBean{
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		
-		if(httpRequest.getRequestURI().startsWith("/open")){
+		if(httpRequest.getRequestURI().startsWith("/services/open")){
 			filterChain.doFilter(request, response);		
 			return;		
 		}
