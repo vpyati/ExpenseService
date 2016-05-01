@@ -29,16 +29,21 @@ public class IdentityFilter extends GenericFilterBean{
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 		
+		HttpServletRequest httpRequest = (HttpServletRequest) request;
+		HttpServletResponse httpResponse = (HttpServletResponse) response;
+		
+		if(httpRequest.getRequestURI().startsWith("/open")){
+			filterChain.doFilter(request, response);		
+			return;		
+		}
+		
 		if(Environment.isDevelopment(request)){			
 			Identity identity = TestIdentity.get();
 			RequestContext.get().setValue(RequestKey.IDENTITY, identity);
 			filterChain.doFilter(request, response);		
 			return;		
 		}
-		
-		HttpServletRequest httpRequest = (HttpServletRequest) request;
-		HttpServletResponse httpResponse = (HttpServletResponse) response;
-				
+						
 		String accessToken = httpRequest.getHeader("AUTHORIZATION");
 		String provider = httpRequest.getHeader("OAUTH_PROVIDER");
 		

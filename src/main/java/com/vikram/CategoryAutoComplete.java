@@ -15,7 +15,7 @@ import com.vikram.category.CategoryTree;
 import com.vikram.model.CategoryAutocompleteResult;
 
 @RestController
-@RequestMapping("searchCategory")
+@RequestMapping("/open/searchCategory")
 public class CategoryAutoComplete {
 		
 	private static final String MISCELLANEOUS_CATEGORY = "8";
