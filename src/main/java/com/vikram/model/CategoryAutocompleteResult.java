@@ -1,17 +1,35 @@
 package com.vikram.model;
 
-import java.util.List;
 
 public class CategoryAutocompleteResult {
 	
-	private List<String> results;
+	private String value;
+	
+	private String label;
 
-	public List<String> getResults() {
-		return results;
+	public CategoryAutocompleteResult(String value, String label) {
+		this.value = value;
+		this.label = label;
 	}
 
-	public void setResults(List<String> results) {
-		this.results = results;
+	public String getValue() {
+		return value;
 	}
+
+	public void setValue(String id) {
+		this.value = id;
+	}
+
+	public String getLabel() {
+		return label;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
+	}
+	
+	
+	
+	
 
 }

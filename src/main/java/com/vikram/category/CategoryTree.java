@@ -32,6 +32,22 @@ public class CategoryTree {
 	}
 	
 	public Category findByCatName(String categoryName){
+		
+		return findByCatName(ROOT,categoryName);		
+	}
+
+
+	private Category findByCatName(Category currentCategory, String categoryName) {
+		
+		if(currentCategory.getCatName().equalsIgnoreCase(categoryName)){
+			return currentCategory;
+		}
+		
+		for(Category cat:currentCategory.getChildren()){
+			Category value =findByCatName(cat, categoryName);
+			if(value != null) return value;
+		}
+		
 		return null;
 	}
 }
