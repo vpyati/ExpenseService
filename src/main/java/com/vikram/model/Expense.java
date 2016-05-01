@@ -67,8 +67,8 @@ public class Expense {
 	
 	public boolean isValid() {
 
-		return StringUtils.isNullOrEmpty(name)
-				|| StringUtils.isNullOrEmpty(category) || creationDate == null;
+		return !StringUtils.isNullOrEmpty(name)
+				&& !StringUtils.isNullOrEmpty(category) && creationDate != null;
 
 	}
 	
