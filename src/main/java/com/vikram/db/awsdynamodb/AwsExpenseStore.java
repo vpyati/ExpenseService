@@ -15,7 +15,7 @@ public class AwsExpenseStore extends AbstractAwsDb implements ExpenseStore {
 				.addItemEntry("CreationDate", new AttributeValue(String.valueOf(expense.getCreationDate().getTime())))
 				.addItemEntry("UID", new AttributeValue(expense.getuID()))
 				.addItemEntry("Tags", new AttributeValue(expense.getTags()))
-				.addItemEntry("Category", new AttributeValue(String.valueOf(expense.getCategory())))
+				.addItemEntry("Category", new AttributeValue(expense.getCategory()))
 				
 				);
 		 

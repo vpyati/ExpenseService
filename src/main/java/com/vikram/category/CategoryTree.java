@@ -27,6 +27,10 @@ public class CategoryTree {
 		return ROOT;
 	}
 	
+	public Category getMiscellaneousCategory(){
+		return findByCatName("Miscellaneous");
+	}
+	
 	public Category findByCatId(int categoryId){
 		return null;
 	}
@@ -35,7 +39,6 @@ public class CategoryTree {
 		
 		return findByCatName(ROOT,categoryName);		
 	}
-
 
 	private Category findByCatName(Category currentCategory, String categoryName) {
 		

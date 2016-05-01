@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vikram.category.Category;
 import com.vikram.category.CategoryAutoCompleteDictionary;
 import com.vikram.category.CategoryTree;
 import com.vikram.model.CategoryAutocompleteResult;
@@ -18,8 +17,6 @@ import com.vikram.model.CategoryAutocompleteResult;
 @RequestMapping("/open/searchCategory")
 public class CategoryAutoComplete {
 		
-	private static final String MISCELLANEOUS_CATEGORY = "8";
-
 	@Autowired
 	private CategoryAutoCompleteDictionary dictionary;
 	
@@ -33,18 +30,9 @@ public class CategoryAutoComplete {
 		
 		List<String> keywords = dictionary.search(term.toLowerCase());
 		for(String keyword:keywords){
-			results.add(new CategoryAutocompleteResult(getCatId(keyword),keyword));
+			results.add(new CategoryAutocompleteResult(keyword,keyword));
 		}
 				
 		return results;
 	}
-
-	private String getCatId(String keyword) {
-		Category category = categoryTree.findByCatName(keyword);
-		if(category == null) return MISCELLANEOUS_CATEGORY;
-		
-		return String.valueOf(categoryTree.findByCatName(keyword).getCatId());
-	}
-	
-
 }

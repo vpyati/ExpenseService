@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vikram.category.Category;
+import com.vikram.category.CategoryTree;
 import com.vikram.db.ExpenseStore;
 import com.vikram.model.Expense;
 import com.vikram.openidconnect.login.core.identity.Identity;
@@ -19,11 +21,14 @@ public class ExpenseController {
 
 	@Autowired
 	private ExpenseStore expenseStore;
+	
+	@Autowired
+	private CategoryTree tree;
 		
 	@RequestMapping(method = RequestMethod.GET)
 	public Expense get(@RequestParam("id") String id) { 		
 		Expense exp = new Expense();
-		exp.setCategory(2);
+		exp.setCategory("2");
 		exp.setDescription("Test");
 		
 		return exp;
@@ -35,9 +40,19 @@ public class ExpenseController {
 		Identity identity = RequestContext.get().getValue(RequestKey.IDENTITY);
 		expense.setuID(identity.getEmailAddress());
 		
+		setCategoryName(expense);
+		
 		expenseStore.add(expense);
 		
 		return expense;
+	}
+
+	private void setCategoryName(Expense expense) {
+		Category category = tree.findByCatName(expense.getCategory());
+		if(category == null){
+			category = tree.getMiscellaneousCategory();
+		}		
+		expense.setCategory(String.valueOf(category.getCatId()));
 	}
 	
 	@RequestMapping(method = RequestMethod.PUT)

@@ -7,7 +7,7 @@ public class Expense {
 	private String name;
 	private String description;
 	private Date creationDate;
-	private int category;	
+	private String category;	
 	private String uID;
 	private String tags;
 	
@@ -34,10 +34,10 @@ public class Expense {
 		this.creationDate = creationDate;
 	}
 	
-	public int getCategory() {
+	public String getCategory() {
 		return category;
 	}
-	public void setCategory(int category) {
+	public void setCategory(String category) {
 		this.category = category;
 	}
 	
