@@ -16,7 +16,12 @@ public class Expense {
 	private String uID;
 	private String tags;
 	
-	
+	private String amazonRangeKey;
+
+	public String getAmazonRangeKey() {
+		return amazonRangeKey;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -71,13 +76,18 @@ public class Expense {
 	 * Convert the raw Expense to something which can be inserted into DB
 	 */
 	public void convert(Identity identity, CategoryTree tree){
-		
+		// Set UID
 		this.setuID(identity.getEmailAddress());
+		// Set description
 		if(StringUtils.isNullOrEmpty(this.getDescription())){
 			this.setDescription(this.getName());
 		}
-		
+		// Set category
 		setCategoryName(tree);
+		//Set range key
+		amazonRangeKey = String.valueOf(creationDate.getTime())+"$%^"+name+"$%^"+new Date().getTime();
+		
+		
 	}
 	
 	private void setCategoryName(CategoryTree tree) {

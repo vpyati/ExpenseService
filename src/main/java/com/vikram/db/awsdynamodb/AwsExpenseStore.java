@@ -20,7 +20,7 @@ public class AwsExpenseStore extends AbstractAwsDb implements ExpenseStore {
 		try {
 			PutItemResult result = amazonDynamoDb.putItem(new PutItemRequest().withTableName("Expense").addItemEntry("Name", new AttributeValue(expense.getName()))
 					.addItemEntry("Description", new AttributeValue(expense.getDescription()))
-					.addItemEntry("CreationDate", new AttributeValue(String.valueOf(expense.getCreationDate().getTime())))
+					.addItemEntry("CreationDate", new AttributeValue(expense.getAmazonRangeKey()))
 					.addItemEntry("UID", new AttributeValue(expense.getuID()))
 					.addItemEntry("Tags", new AttributeValue(expense.getTags()))
 					.addItemEntry("Category", new AttributeValue(expense.getCategory()))				
