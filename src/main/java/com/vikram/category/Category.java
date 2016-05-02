@@ -4,13 +4,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Category {
+import com.vikram.autocomplete.v2.AutoCompleteElement;
+
+public class Category implements AutoCompleteElement{
 	
 	private int catId;
 	
 	private Category parentCategory;
 	
 	private String catName;
+	
+	private String label;
 	
 	private List<Category> children = new ArrayList<Category>();
 	
@@ -48,4 +52,40 @@ public class Category {
 	public boolean isLeaf(){
 		return children.isEmpty();
 	}
+
+	@Override
+	public String getValue() {
+		return String.valueOf(getCatId());
+	}
+
+	@Override
+	public String getLabel() {
+		if(label==null){
+			label = generateLable();
+		}
+		
+		return label;
+	}
+	
+	private String generateLable() {
+		StringBuilder label = new StringBuilder();
+		List<String> categoryNames = new ArrayList<String>();
+		Category current = this;
+		while(current.getCatId()!=0){
+			categoryNames.add(current.getCatName());
+			current = current.getParentCategory();
+		}
+		
+		if(categoryNames.isEmpty()){
+			return label.toString();
+		}
+		
+		label.append(categoryNames.get(categoryNames.size()-1));
+		for(int i=categoryNames.size()-2;i>=0;i--){
+			label.append(" -> " + categoryNames.get(i));
+		}
+		
+		return label.toString();
+	}
+
 }

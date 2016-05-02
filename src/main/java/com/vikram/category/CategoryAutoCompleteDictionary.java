@@ -2,20 +2,14 @@ package com.vikram.category;
 
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.vikram.autocomplete.AutoComplete;
+import com.vikram.autocomplete.AutoCompleteTrie;
 
 public class CategoryAutoCompleteDictionary {
 	
-	private AutoComplete autoComplete = new AutoComplete("CategoryDictionary");
+	private AutoCompleteTrie autoComplete = new AutoCompleteTrie("CategoryDictionary");
 	
-	@Autowired
 	private CategoryTree categoryTree;
 	
-	@PostConstruct
 	public void init(){		
 		addCategoryToDictionary(categoryTree.getRootCategory());				
 	}

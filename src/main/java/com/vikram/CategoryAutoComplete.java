@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vikram.category.CategoryAutoCompleteDictionary;
+import com.vikram.autocomplete.v2.AutoCompleteElement;
+import com.vikram.category.CategoryAutoCompleteDictionary2;
 import com.vikram.category.CategoryTree;
 import com.vikram.model.CategoryAutocompleteResult;
 
@@ -17,8 +18,10 @@ import com.vikram.model.CategoryAutocompleteResult;
 @RequestMapping("/open/searchCategory")
 public class CategoryAutoComplete {
 		
+	private static final int MAX_RESULTS = 10;
+
 	@Autowired
-	private CategoryAutoCompleteDictionary dictionary;
+	private CategoryAutoCompleteDictionary2 dictionary;
 	
 	@Autowired
 	private CategoryTree categoryTree;
@@ -28,11 +31,11 @@ public class CategoryAutoComplete {
 		
 		List<CategoryAutocompleteResult> results = new ArrayList<CategoryAutocompleteResult>();
 		
-		List<String> keywords = dictionary.search(term.toLowerCase());
-		for(String keyword:keywords){
-			results.add(new CategoryAutocompleteResult(keyword,keyword));
+		List<AutoCompleteElement> keywords = dictionary.search(term.toLowerCase());
+		for(AutoCompleteElement keyword:keywords){
+			results.add(new CategoryAutocompleteResult(keyword.getValue(),keyword.getLabel()));
 		}
 				
-		return results;
+		return results.subList(0, Math.min(MAX_RESULTS, results.size()));
 	}
 }

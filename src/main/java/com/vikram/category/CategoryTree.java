@@ -53,4 +53,15 @@ public class CategoryTree {
 		
 		return null;
 	}
+	
+	public static void main(String[] args){
+		
+		CategoryTree tree = new CategoryTree();
+		try {
+			tree.load();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
 }

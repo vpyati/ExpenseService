@@ -3,12 +3,12 @@ package com.vikram.autocomplete;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AutoComplete {
+public class AutoCompleteTrie {
 	
 	private String dictionaryName;
 	private TrieNode root;
 	
-	public AutoComplete(String dictionaryName){
+	public AutoCompleteTrie(String dictionaryName){
 		this.dictionaryName = dictionaryName;
 		this.root = new TrieNode(false,true);
 	}
@@ -58,7 +58,7 @@ public class AutoComplete {
 	
 	public static void main(String[] args){
 		
-		AutoComplete ac = new AutoComplete("Test");
+		AutoCompleteTrie ac = new AutoCompleteTrie("Test");
 		ac.addWord("to");
 		ac.addWord("today");
 		ac.addWord("tonight");
