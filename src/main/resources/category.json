@@ -1,157 +1,246 @@
 {
-    "catId": "0",
-    "catName": "Root",
-    "children": [
+  "catId": "0",
+  "catName": "Root",
+  "children": [
+    {
+      "catId": "1",
+      "catName": "Household",
+      "children": [
         {
-            "catId": "1",
-            "catName": "Household",
-            "children": [
-                {
-                    "catId": "9",
-                    "catName": "Maintainence",
-                    "children": []
-                },
-                {
-                    "catId": "10",
-                    "catName": "Electric Bill",
-                    "children": []
-                },
-                {
-                    "catId": "11",
-                    "catName": "Water bill",
-                    "children": []
-                },
-                {
-                    "catId": "12",
-                    "catName": "Tatasky",
-                    "children": []
-                }
-            ]
+          "catId": "10",
+          "catName": "Maintainence",
+          "children": []
         },
         {
-            "catId": "2",
-            "catName": "Transport",
-            "children": [
-                {
-                    "catId": "13",
-                    "catName": "Two-Wheeler",
-                    "children": []
-                },
-                {
-                    "catId": "14",
-                    "catName": "Four-Wheeler",
-                    "children": []
-                },
-                {
-                    "catId": "15",
-                    "catName": "Train",
-                    "children": []
-                },
-                {
-                    "catId": "16",
-                    "catName": "Bus",
-                    "children": []
-                },
-                {
-                    "catId": "17",
-                    "catName": "Cab",
-                    "children": []
-                }
-            ]
+          "catId": "11",
+          "catName": "Electric Bill",
+          "children": []
         },
         {
-            "catId": "3",
-            "catName": "Telecom",
-            "children": [
-                {
-                    "catId": "18",
-                    "catName": "Phone Bill",
-                    "children": []
-                },
-                {
-                    "catId": "19",
-                    "catName": "Internet",
-                    "children": []
-                }
-            ]
+          "catId": "12",
+          "catName": "Water bill",
+          "children": []
         },
         {
-            "catId": "4",
-            "catName": "Investment",
-            "children": [
-                {
-                    "catId": "20",
-                    "catName": "ESPP",
-                    "children": []
-                },
-                {
-                    "catId": "21",
-                    "catName": "Reliance Mutual Fund",
-                    "children": []
-                },
-                {
-                    "catId": "22",
-                    "catName": "HDFC Mutual Fund",
-                    "children": []
-                },
-                {
-                    "catId": "23",
-                    "catName": "HDFC premium",
-                    "children": []
-                }
-            ]
+          "catId": "13",
+          "catName": "Tatasky",
+          "children": []
         },
         {
-            "catId": "5",
-            "catName": "Food",
-            "children": [
-                {
-                    "catId": "24",
-                    "catName": "Grocery",
-                    "children": []
-                },
-                {
-                    "catId": "25",
-                    "catName": "Vegetables",
-                    "children": []
-                },
-                {
-                    "catId": "26",
-                    "catName": "Restaurants",
-                    "children": []
-                }
-            ]
+          "catId": "14",
+          "catName": "Food",
+          "children": [
+            {
+              "catId": "15",
+              "catName": "Grocery",
+              "children": []
+            },
+            {
+              "catId": "16",
+              "catName": "Vegetables",
+              "children": []
+            },
+            {
+              "catId": "17",
+              "catName": "Bakery",
+              "children": []
+            }
+          ]
         },
         {
-            "catId": "6",
-            "catName": "Clothes",
-            "children": []
-        },
-        {
-            "catId": "7",
-            "catName": "Charity",
-            "children": []
-        },
-        {
-            "catId": "8",
-            "catName": "Miscellaneous",
-            "children": []
-        },
-        {
-            "catId": "27",
-            "catName": "Loans",
-            "children": [
-                {
-                    "catId": "28",
-                    "catName": "Home Loan",
-                    "children": []
-                },
-                {
-                    "catId": "30",
-                    "catName": "Car Loan",
-                    "children": []
-                }
-            ]
+          "catId": "18",
+          "catName": "Medical Expenses",
+          "children": [
+            {
+              "catId": "19",
+              "catName": "Consultation",
+              "children": []
+            },
+            {
+              "catId": "20",
+              "catName": "Medicines",
+              "children": []
+            }
+          ]
         }
-    ]
+      ]
+    },
+    {
+      "catId": "2",
+      "catName": "Transport",
+      "children": [
+        {
+          "catId": "21",
+          "catName": "Two-Wheeler",
+          "children": [
+            {
+              "catId": "22",
+              "catName": "Service",
+              "children": []
+            },
+            {
+              "catId": "23",
+              "catName": "Fuel",
+              "children": []
+            },
+            {
+              "catId": "24",
+              "catName": "Insurance",
+              "children": []
+            }
+          ]
+        },
+        {
+          "catId": "25",
+          "catName": "Four-Wheeler",
+          "children": [
+            {
+              "catId": "26",
+              "catName": "Service",
+              "children": []
+            },
+            {
+              "catId": "27",
+              "catName": "Fuel",
+              "children": []
+            },
+            {
+              "catId": "28",
+              "catName": "Insurance",
+              "children": []
+            },
+            {
+              "catId": "29",
+              "catName": "Car Wash",
+              "children": []
+            }
+          ]
+        },
+        {
+          "catId": "30",
+          "catName": "Train",
+          "children": []
+        },
+        {
+          "catId": "31",
+          "catName": "Bus",
+          "children": []
+        },
+        {
+          "catId": "32",
+          "catName": "Cab",
+          "children": []
+        },
+        {
+          "catId": "33",
+          "catName": "Flight",
+          "children": []
+        },
+        {
+          "catId": "34",
+          "catName": "Auto",
+          "children": []
+        }
+      ]
+    },
+    {
+      "catId": "3",
+      "catName": "Telecom",
+      "children": [
+        {
+          "catId": "35",
+          "catName": "Phone Bill",
+          "children": []
+        },
+        {
+          "catId": "36",
+          "catName": "Internet",
+          "children": []
+        }
+      ]
+    },
+    {
+      "catId": "4",
+      "catName": "Investment",
+      "children": [
+        {
+          "catId": "37",
+          "catName": "ESPP",
+          "children": []
+        },
+        {
+          "catId": "38",
+          "catName": "Reliance Mutual Fund",
+          "children": []
+        },
+        {
+          "catId": "39",
+          "catName": "HDFC Mutual Fund",
+          "children": []
+        },
+        {
+          "catId": "40",
+          "catName": "HDFC premium",
+          "children": []
+        }
+      ]
+    },
+    {
+      "catId": "5",
+      "catName": "Clothes",
+      "children": []
+    },
+    {
+      "catId": "6",
+      "catName": "Charity",
+      "children": []
+    },
+    {
+      "catId": "7",
+      "catName": "Entertainment",
+      "children": [
+        {
+          "catId": "41",
+          "catName": "Movies",
+          "children": []
+        },
+        {
+          "catId": "42",
+          "catName": "Plays",
+          "children": []
+        },
+        {
+          "catId": "43",
+          "catName": "Restaurants",
+          "children": []
+        },
+        {
+          "catId": "44",
+          "catName": "Outings",
+          "children": []
+        }
+      ]
+    },
+    {
+      "catId": "8",
+      "catName": "Miscellaneous",
+      "children": []
+    },
+    {
+      "catId": "9",
+      "catName": "Loans",
+      "children": [
+        {
+          "catId": "45",
+          "catName": "Home Loan",
+          "children": []
+        },
+        {
+          "catId": "46",
+          "catName": "Car Loan",
+          "children": []
+        }
+      ]
+    }
+  ]
 }

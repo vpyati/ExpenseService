@@ -83,7 +83,7 @@ public class Expense {
 			this.setDescription(this.getName());
 		}
 		// Set category
-		setCategoryName(tree);
+		//setCategoryName(tree);
 		//Set range key
 		amazonRangeKey = String.valueOf(creationDate.getTime())+"$%^"+name+"$%^"+new Date().getTime();
 		
