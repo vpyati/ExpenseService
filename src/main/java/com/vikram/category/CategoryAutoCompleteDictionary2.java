@@ -1,6 +1,7 @@
 package com.vikram.category;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -28,7 +29,7 @@ public class CategoryAutoCompleteDictionary2 {
 		addCategoryToDictionary(categoryTree.getRootCategory());				
 	}
 
-	public List<AutoCompleteElement> search(String prefix){
+	public Collection<AutoCompleteElement> search(String prefix){
 		return autoComplete.search(prefix);
 	}
 

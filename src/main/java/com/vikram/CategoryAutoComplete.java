@@ -1,6 +1,7 @@
 package com.vikram;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class CategoryAutoComplete {
 		
 		List<CategoryAutocompleteResult> results = new ArrayList<CategoryAutocompleteResult>();
 		
-		List<AutoCompleteElement> keywords = dictionary.search(term.toLowerCase());
+		Collection<AutoCompleteElement> keywords = dictionary.search(term.toLowerCase());
 		for(AutoCompleteElement keyword:keywords){
 			results.add(new CategoryAutocompleteResult(keyword.getLabel(),keyword.getLabel(),keyword.getValue()));
 		}

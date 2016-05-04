@@ -1,9 +1,12 @@
 package com.vikram.autocomplete.v2;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class AutoCompleteBrute {
 	
@@ -11,7 +14,7 @@ public class AutoCompleteBrute {
 	
 	private List<String> excludeForIndexing = new ArrayList<String>();
 	
-	private Map<String, List<AutoCompleteElement>> cache = new HashMap<String, List<AutoCompleteElement>>();
+	private Map<String, Set<AutoCompleteElement>> cache = new HashMap<String, Set<AutoCompleteElement>>();
 	
 	public AutoCompleteBrute(String dictionaryName, List<String> excludeForIndexing) {
 		this.dictionaryName = dictionaryName;
@@ -34,7 +37,7 @@ public class AutoCompleteBrute {
 				
 				String prefix = token.substring(0,i).toLowerCase();
 				if(!cache.containsKey(prefix)){
-					cache.put(prefix, new ArrayList<AutoCompleteElement>());
+					cache.put(prefix, new HashSet<AutoCompleteElement>());
 				}
 				
 				cache.get(prefix).add(element);
@@ -43,7 +46,7 @@ public class AutoCompleteBrute {
 	}
 	
 	
-	public List<AutoCompleteElement> search(String prefix){
+	public Collection<AutoCompleteElement> search(String prefix){
 		if(cache.containsKey(prefix)){
 			return cache.get(prefix);
 		}

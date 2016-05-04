@@ -2,8 +2,10 @@ package com.vikram.model;
 
 import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.amazonaws.util.StringUtils;
-import com.vikram.category.Category;
 import com.vikram.category.CategoryTree;
 import com.vikram.openidconnect.login.core.identity.Identity;
 
@@ -15,11 +17,32 @@ public class Expense {
 	private String category;	
 	private String uID;
 	private String tags;
+	private String categoryPath;
+	private String amount;
 	
 	private String amazonRangeKey;
+	
+	private static Logger logger = LoggerFactory.getLogger(Expense.class);
 
 	public String getAmazonRangeKey() {
 		return amazonRangeKey;
+	}
+
+		
+	public String getAmount() {
+		return amount;
+	}
+	
+	public void setAmount(String amount) {
+		this.amount = amount;
+	}
+
+	public String getCategoryPath() {
+		return categoryPath;
+	}
+
+	public void setCategoryPath(String categoryPath) {
+		this.categoryPath = categoryPath;
 	}
 
 	public String getName() {
@@ -66,10 +89,32 @@ public class Expense {
 	}
 	
 	public boolean isValid() {
+		
+		boolean basicCheck =  assertBasicChecks();
+		if(!basicCheck){
+			return false;
+		}
+		
+		return isAmountValid();
+	}
 
+
+	private boolean isAmountValid() {
+		
+		try {
+			Double.parseDouble(amount);
+		} catch (NumberFormatException e) {
+			logger.error("Invalid Amount");
+			return false;
+		}
+		
+		return true;
+	}
+
+
+	private boolean assertBasicChecks() {
 		return !StringUtils.isNullOrEmpty(name)
 				&& !StringUtils.isNullOrEmpty(category) && creationDate != null;
-
 	}
 	
 	/**
@@ -82,20 +127,11 @@ public class Expense {
 		if(StringUtils.isNullOrEmpty(this.getDescription())){
 			this.setDescription(this.getName());
 		}
-		// Set category
-		//setCategoryName(tree);
+
 		//Set range key
 		amazonRangeKey = String.valueOf(creationDate.getTime())+"$%^"+name+"$%^"+new Date().getTime();
 		
 		
-	}
-	
-	private void setCategoryName(CategoryTree tree) {
-		Category category = tree.findByCatName(this.getCategory());
-		if(category == null){
-			category = tree.getMiscellaneousCategory();
-		}		
-		this.setCategory(String.valueOf(category.getCatId()));
 	}
 
 	
