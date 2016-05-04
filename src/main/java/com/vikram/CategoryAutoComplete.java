@@ -32,7 +32,7 @@ public class CategoryAutoComplete {
 		
 		List<CategoryAutocompleteResult> results = new ArrayList<CategoryAutocompleteResult>();
 		
-		Collection<AutoCompleteElement> keywords = dictionary.search(term.toLowerCase());
+		Collection<AutoCompleteElement> keywords = dictionary.search(term.trim().toLowerCase());
 		for(AutoCompleteElement keyword:keywords){
 			results.add(new CategoryAutocompleteResult(keyword.getLabel(),keyword.getLabel(),keyword.getValue()));
 		}
