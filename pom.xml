@@ -135,6 +135,16 @@
 					<warName>services</warName>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<url>http://www.trackthespending.in/manager/text</url>
+					<server>TomcatServer</server>
+					<path>/services</path>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 </project>
