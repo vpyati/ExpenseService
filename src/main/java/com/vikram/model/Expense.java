@@ -1,5 +1,6 @@
 package com.vikram.model;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import org.slf4j.Logger;
@@ -129,10 +130,17 @@ public class Expense {
 		}
 
 		//Set range key
-		amazonRangeKey = String.valueOf(creationDate.getTime())+"$%^"+name+"$%^"+new Date().getTime();
-		
-		
+		amazonRangeKey = String.valueOf(creationDate.getTime()+getMillisecsElapsedInDay());
 	}
 
+	private long getMillisecsElapsedInDay(){
+		Calendar cal = Calendar.getInstance();
+		long millisecForDay = cal.get(Calendar.HOUR_OF_DAY)*60*60*1000;
+		millisecForDay+=cal.get(Calendar.MINUTE)*60*1000;
+		millisecForDay+=cal.get(Calendar.SECOND)*1000;
+		millisecForDay+=cal.get(Calendar.MILLISECOND);
+		return millisecForDay;
+
+	}
 	
 }
