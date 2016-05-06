@@ -1,4 +1,4 @@
 language: java
 jdk:
   - oraclejdk7
-script:mvn tomcat7:redeploy
+script: mvn tomcat7:redeploy
