@@ -11,6 +11,13 @@
 		<org.springframework.version>4.0.8.RELEASE</org.springframework.version>
 		<spring.security.version>3.2.3.RELEASE</spring.security.version>
 	</properties>
+  <repositories>
+    <repository>
+      <id>vpyati</id>
+      <name>maven_repo</name>
+      <url>https://raw.githubusercontent.com/vpyati/maven_repo/master/</url>
+    </repository>
+  </repositories>
 	<dependencies>
 		<dependency>
 			<groupId>com.amazonaws</groupId>
@@ -37,7 +44,6 @@
 					<groupId>org.springframework</groupId>
 					<artifactId>spring-beans</artifactId>
 				</exclusion>
-
 			</exclusions>
 		</dependency>
 		<dependency>
