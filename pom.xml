@@ -149,6 +149,7 @@
 					<url>http://www.trackthespending.in/manager/text</url>
 					<server>TomcatServer</server>
 					<path>/services</path>
+					<warFile>${project.build.directory}/services.war</warFile>
 				</configuration>
 			</plugin>
 		</plugins>
