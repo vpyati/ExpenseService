@@ -1,4 +1,5 @@
 language: java
 jdk:
   - oraclejdk7
+script: mvn clean install
 script: mvn tomcat7:redeploy
