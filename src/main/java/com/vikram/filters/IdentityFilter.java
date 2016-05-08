@@ -37,8 +37,11 @@ public class IdentityFilter extends GenericFilterBean{
 			return;		
 		}
 		
-		if(Environment.isDevelopment(request)){			
-			Identity identity = TestIdentity.get();
+		if(Environment.isDevelopment(request)){	
+			
+			String UID = httpRequest.getParameter("UID");
+			
+			Identity identity = UID==null?TestIdentity.get():TestIdentity.get(UID);
 			RequestContext.get().setValue(RequestKey.IDENTITY, identity);
 			filterChain.doFilter(request, response);		
 			return;		

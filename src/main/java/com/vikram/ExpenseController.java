@@ -1,5 +1,8 @@
 package com.vikram;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vikram.category.CategoryTree;
+import com.vikram.db.ExpenseDo;
 import com.vikram.db.ExpenseStore;
 import com.vikram.model.Expense;
 import com.vikram.openidconnect.login.core.identity.Identity;
@@ -32,11 +36,19 @@ public class ExpenseController {
 	private static Logger logger = LoggerFactory.getLogger(ExpenseController.class);
 		
 	@RequestMapping(method = RequestMethod.GET)
-	public Expense get(@RequestParam("id") String id) { 		
-		Expense exp = new Expense();
-		exp.setCategory("2");
-		exp.setDescription("Test");		
-		return exp;
+	public List<Expense> get(@RequestParam("s") long start, @RequestParam("e") long end) { 		
+		
+		Identity identity = getIdentity();		
+		logger.info("Invoking method to get expenses");
+		List<ExpenseDo> dataResults =expenseStore.findAllInDateRange(identity.getEmailAddress(),start, end);
+		logger.info("Found " +(dataResults==null?0:dataResults.size()+" entries"));
+		
+		List<Expense> results = new ArrayList<Expense>();
+		for(ExpenseDo dataObj:dataResults){
+			results.add(new Expense(dataObj));
+		}
+		
+		return results;
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
@@ -47,16 +59,21 @@ public class ExpenseController {
 			return null;
 		}
 		
+		Identity identity = getIdentity();
+		
+		expense.transformForInsert(identity, tree);
+		
+		logger.info("Trying to store identity using Expense store");
+		expenseStore.add(expense.getDataObject());
+		
+		return expense;
+	}
+
+	private Identity getIdentity() {
 		logger.info("Fetching identity from context");
 		Identity identity = RequestContext.get().getValue(RequestKey.IDENTITY);
 		logger.info("Fetching identity from context ---- completed -> "+identity==null?"Unable to fetch identity":identity.getEmailAddress());
-		
-		expense.convert(identity, tree);
-		
-		logger.info("Trying to store identity using Expense store");
-		expenseStore.add(expense);
-		
-		return expense;
+		return identity;
 	}
 
 	@RequestMapping(method = RequestMethod.PUT)

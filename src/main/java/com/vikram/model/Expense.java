@@ -8,34 +8,31 @@ import org.slf4j.LoggerFactory;
 
 import com.amazonaws.util.StringUtils;
 import com.vikram.category.CategoryTree;
+import com.vikram.db.ExpenseDo;
 import com.vikram.openidconnect.login.core.identity.Identity;
 
 public class Expense {
 	
-	private String name;
-	private String description;
-	private Date creationDate;
-	private String category;	
-	private String uID;
-	private String tags;
 	private String categoryPath;
-	private String amount;
 	
-	private String amazonRangeKey;
+	private ExpenseDo dataObj;
 	
 	private static Logger logger = LoggerFactory.getLogger(Expense.class);
-
-	public String getAmazonRangeKey() {
-		return amazonRangeKey;
+	
+	public Expense(){
+		dataObj = new ExpenseDo();
+	}
+	
+	public Expense(ExpenseDo dataObj){
+		this.dataObj = dataObj;
 	}
 
-		
 	public String getAmount() {
-		return amount;
+		return this.dataObj.getAmount();
 	}
 	
 	public void setAmount(String amount) {
-		this.amount = amount;
+		this.dataObj.setAmount(amount);
 	}
 
 	public String getCategoryPath() {
@@ -47,46 +44,49 @@ public class Expense {
 	}
 
 	public String getName() {
-		return name;
+		return this.dataObj.getName();
 	}
 	public void setName(String name) {
-		this.name = name;
+		this.dataObj.setName(name);
 	}
 	
 	public String getDescription() {
-		return description;
+		return this.dataObj.getDescription();
 	}
 	public void setDescription(String description) {
-		this.description = description;
+		this.dataObj.setDescription(description);
 	}
 	
-
 	public Date getCreationDate() {
-		return creationDate;
+		if(this.dataObj.getCreationDate()==0) return null;
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(this.dataObj.getCreationDate());		
+		return cal.getTime();
 	}
 	public void setCreationDate(Date creationDate) {
-		this.creationDate = creationDate;
+		if(creationDate == null) return;
+		this.dataObj.setCreationDate(creationDate.getTime()+getMillisecsElapsedInDay());
 	}
 	
 	public String getCategory() {
-		return category;
+		return this.dataObj.getCategory();
 	}
 	public void setCategory(String category) {
-		this.category = category;
+		this.dataObj.setCategory(category);
 	}
 	
 	public String getuID() {
-		return uID;
+		return this.dataObj.getUID();
 	}
 	public void setuID(String uID) {
-		this.uID = uID;
+		this.dataObj.setUID(uID);
 	}
 	
 	public String getTags() {
-		return tags;
+		return this.dataObj.getTags();
 	}
 	public void setTags(String tags) {
-		this.tags = tags;
+		this.dataObj.setTags(tags);
 	}
 	
 	public boolean isValid() {
@@ -103,7 +103,7 @@ public class Expense {
 	private boolean isAmountValid() {
 		
 		try {
-			Double.parseDouble(amount);
+			Double.parseDouble(this.getAmount());
 		} catch (NumberFormatException e) {
 			logger.error("Invalid Amount");
 			return false;
@@ -114,23 +114,20 @@ public class Expense {
 
 
 	private boolean assertBasicChecks() {
-		return !StringUtils.isNullOrEmpty(name)
-				&& !StringUtils.isNullOrEmpty(category) && creationDate != null;
+		return !StringUtils.isNullOrEmpty(this.getName())
+				&& !StringUtils.isNullOrEmpty(this.getCategory()) && this.getCreationDate() != null;
 	}
 	
 	/**
 	 * Convert the raw Expense to something which can be inserted into DB
 	 */
-	public void convert(Identity identity, CategoryTree tree){
+	public void transformForInsert(Identity identity, CategoryTree tree){
 		// Set UID
 		this.setuID(identity.getEmailAddress());
 		// Set description
 		if(StringUtils.isNullOrEmpty(this.getDescription())){
 			this.setDescription(this.getName());
 		}
-
-		//Set range key
-		amazonRangeKey = String.valueOf(creationDate.getTime()+getMillisecsElapsedInDay());
 	}
 
 	private long getMillisecsElapsedInDay(){
@@ -143,4 +140,7 @@ public class Expense {
 
 	}
 	
+	public ExpenseDo getDataObject(){
+		return dataObj;
+	}
 }

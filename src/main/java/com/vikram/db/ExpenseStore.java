@@ -1,9 +1,11 @@
 package com.vikram.db;
 
-import com.vikram.model.Expense;
+import java.util.List;
 
 public interface ExpenseStore {
 	
-	public void add(Expense expense);
+	public void add(ExpenseDo expense);
+	
+	public List<ExpenseDo> findAllInDateRange(String uid, long start, long end);
 
 }
