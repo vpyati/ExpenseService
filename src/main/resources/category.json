@@ -179,6 +179,26 @@
           "children": []
         },
         {
+          "catId": "47",
+          "catName": "SBI Bluechip Mutual fund",
+          "children": []
+        },
+        {
+          "catId": "48",
+          "catName": "DSP Micro Mutual Fund",
+          "children": []
+        },
+        {
+          "catId": "49",
+          "catName": "Franklin Prima plus Mutual Fund",
+          "children": []
+        },
+        {
+          "catId": "50",
+          "catName": "Tata Ethical Mutual Fund",
+          "children": []
+        },
+        {
           "catId": "40",
           "catName": "HDFC premium",
           "children": []
@@ -241,6 +261,12 @@
           "children": []
         }
       ]
-    }
+    },
+    {
+       "catId": "51",
+       "catName": "Gifts",
+       "children": []
+     }
+
   ]
 }
