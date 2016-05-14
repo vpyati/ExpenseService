@@ -9,22 +9,30 @@
         {
           "catId": "10",
           "catName": "Maintainence",
-          "children": []
+          "children": [
+            
+          ]
         },
         {
           "catId": "11",
           "catName": "Electric Bill",
-          "children": []
+          "children": [
+            
+          ]
         },
         {
           "catId": "12",
           "catName": "Water bill",
-          "children": []
+          "children": [
+            
+          ]
         },
         {
           "catId": "13",
           "catName": "Tatasky",
-          "children": []
+          "children": [
+            
+          ]
         },
         {
           "catId": "14",
@@ -33,17 +41,23 @@
             {
               "catId": "15",
               "catName": "Grocery",
-              "children": []
+              "children": [
+                
+              ]
             },
             {
               "catId": "16",
               "catName": "Vegetables",
-              "children": []
+              "children": [
+                
+              ]
             },
             {
               "catId": "17",
               "catName": "Bakery",
-              "children": []
+              "children": [
+                
+              ]
             }
           ]
         },
@@ -54,12 +68,16 @@
             {
               "catId": "19",
               "catName": "Consultation",
-              "children": []
+              "children": [
+                
+              ]
             },
             {
               "catId": "20",
               "catName": "Medicines",
-              "children": []
+              "children": [
+                
+              ]
             }
           ]
         }
@@ -76,17 +94,23 @@
             {
               "catId": "22",
               "catName": "Service",
-              "children": []
+              "children": [
+                
+              ]
             },
             {
               "catId": "23",
               "catName": "Fuel",
-              "children": []
+              "children": [
+                
+              ]
             },
             {
               "catId": "24",
               "catName": "Insurance",
-              "children": []
+              "children": [
+                
+              ]
             }
           ]
         },
@@ -97,49 +121,67 @@
             {
               "catId": "26",
               "catName": "Service",
-              "children": []
+              "children": [
+                
+              ]
             },
             {
               "catId": "27",
               "catName": "Fuel",
-              "children": []
+              "children": [
+                
+              ]
             },
             {
               "catId": "28",
               "catName": "Insurance",
-              "children": []
+              "children": [
+                
+              ]
             },
             {
               "catId": "29",
               "catName": "Car Wash",
-              "children": []
+              "children": [
+                
+              ]
             }
           ]
         },
         {
           "catId": "30",
           "catName": "Train",
-          "children": []
+          "children": [
+            
+          ]
         },
         {
           "catId": "31",
           "catName": "Bus",
-          "children": []
+          "children": [
+            
+          ]
         },
         {
           "catId": "32",
           "catName": "Cab",
-          "children": []
+          "children": [
+            
+          ]
         },
         {
           "catId": "33",
           "catName": "Flight",
-          "children": []
+          "children": [
+            
+          ]
         },
         {
           "catId": "34",
           "catName": "Auto",
-          "children": []
+          "children": [
+            
+          ]
         }
       ]
     },
@@ -150,12 +192,16 @@
         {
           "catId": "35",
           "catName": "Phone Bill",
-          "children": []
+          "children": [
+            
+          ]
         },
         {
           "catId": "36",
           "catName": "Internet",
-          "children": []
+          "children": [
+            
+          ]
         }
       ]
     },
@@ -166,54 +212,74 @@
         {
           "catId": "37",
           "catName": "ESPP",
-          "children": []
+          "children": [
+            
+          ]
         },
         {
           "catId": "38",
           "catName": "Reliance Mutual Fund",
-          "children": []
+          "children": [
+            
+          ]
         },
         {
           "catId": "39",
           "catName": "HDFC Mutual Fund",
-          "children": []
+          "children": [
+            
+          ]
         },
         {
           "catId": "47",
           "catName": "SBI Bluechip Mutual fund",
-          "children": []
+          "children": [
+            
+          ]
         },
         {
           "catId": "48",
           "catName": "DSP Micro Mutual Fund",
-          "children": []
+          "children": [
+            
+          ]
         },
         {
           "catId": "49",
           "catName": "Franklin Prima plus Mutual Fund",
-          "children": []
+          "children": [
+            
+          ]
         },
         {
           "catId": "50",
           "catName": "Tata Ethical Mutual Fund",
-          "children": []
+          "children": [
+            
+          ]
         },
         {
           "catId": "40",
           "catName": "HDFC premium",
-          "children": []
+          "children": [
+            
+          ]
         }
       ]
     },
     {
       "catId": "5",
       "catName": "Clothes",
-      "children": []
+      "children": [
+        
+      ]
     },
     {
       "catId": "6",
       "catName": "Charity",
-      "children": []
+      "children": [
+        
+      ]
     },
     {
       "catId": "7",
@@ -222,29 +288,39 @@
         {
           "catId": "41",
           "catName": "Movies",
-          "children": []
+          "children": [
+            
+          ]
         },
         {
           "catId": "42",
           "catName": "Plays",
-          "children": []
+          "children": [
+            
+          ]
         },
         {
           "catId": "43",
           "catName": "Restaurants",
-          "children": []
+          "children": [
+            
+          ]
         },
         {
           "catId": "44",
           "catName": "Outings",
-          "children": []
+          "children": [
+            
+          ]
         }
       ]
     },
     {
       "catId": "8",
       "catName": "Miscellaneous",
-      "children": []
+      "children": [
+        
+      ]
     },
     {
       "catId": "9",
@@ -253,20 +329,45 @@
         {
           "catId": "45",
           "catName": "Home Loan",
-          "children": []
+          "children": [
+            
+          ]
         },
         {
           "catId": "46",
           "catName": "Car Loan",
-          "children": []
+          "children": [
+            
+          ]
         }
       ]
     },
     {
-       "catId": "51",
-       "catName": "Gifts",
-       "children": []
-     }
-
+      "catId": "51",
+      "catName": "Gifts",
+      "children": [
+        
+      ]
+    },
+    {
+      "catId": "52",
+      "catName": "Hobbies",
+      "children": [
+        {
+          "catId": "53",
+          "catName": "Books",
+          "children": [
+            
+          ]
+        },
+        {
+          "catId": "54",
+          "catName": "Technology",
+          "children": [
+            
+          ]
+        }
+      ]
+    }
   ]
 }
