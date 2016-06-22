@@ -1,7 +1,6 @@
 package com.vikram;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Enumeration;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -31,12 +30,14 @@ public class TwilioProxy {
 	private static Logger logger = LoggerFactory.getLogger(TwilioProxy.class);
 	
 	private static String SERVICE_ENDPOINT = "http://imagecleanup.ebay.com/imagecleanup/v1/listdial";
+	private static String SERVICE_ENDPOINT_CONFIRM = "http://imagecleanup.ebay.com/imagecleanup/v1/listconfirm";
+
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String forward(HttpServletRequest request, HttpServletResponse servletResponse) { 		
 		logger.info("Entering the Twilio method");
 		try {
-			HttpResponse response = invokeEbayService(request);
+			HttpResponse response = invokeEbayService(request,SERVICE_ENDPOINT);
 			logger.info("Response status fromo imageclean up = "+response.getStatusLine().getStatusCode());
 			HttpEntity entity = response.getEntity();
 			servletResponse.setContentType("application/xml");
@@ -50,13 +51,32 @@ public class TwilioProxy {
 			return "";
 		}
 	}
-	
-	private HttpResponse invokeEbayService(HttpServletRequest request) throws Exception  {
-		HttpClient client = HttpClientBuilder.create().build();
 
-		String serviceEndpoint = SERVICE_ENDPOINT ;
+	@RequestMapping(value= "/confirm",method = RequestMethod.GET)
+	public String confirm(HttpServletRequest request, HttpServletResponse servletResponse) { 		
+		logger.info("Entering the Twilio confirm method");
+		try {
+			HttpResponse response = invokeEbayService(request,SERVICE_ENDPOINT_CONFIRM);
+			logger.info("Response status fromo imageclean up = "+response.getStatusLine().getStatusCode());
+			HttpEntity entity = response.getEntity();
+			servletResponse.setContentType("application/xml");
+			String resString =  EntityUtils.toString(entity, "UTF-8");
+			logger.info("REsponse from twilo proxy = "+resString);
+			return resString;
+			
+		} catch (Exception e) {
+			logger.error("Unable to invoke ebay service", e);
+			servletResponse.setStatus(500);
+			return "";
+		}
+	}
+
+	
+	
+	private HttpResponse invokeEbayService(HttpServletRequest request, String serviceEndPoint) throws Exception  {
+		HttpClient client = HttpClientBuilder.create().build();
 		
-		HttpPost post = new HttpPost(serviceEndpoint);
+		HttpPost post = new HttpPost(serviceEndPoint);
 		addHeaders(post,request);
 		addParameters(post,request);
 		
@@ -100,15 +120,6 @@ public class TwilioProxy {
 	}
 
 	private void addHeaders(HttpPost post, HttpServletRequest request) {
-//		if(request.getHeaderNames() == null ){
-//			return;
-//		}
-//		
-//		Enumeration<String> headers = request.getHeaderNames();
-//		while(headers.hasMoreElements()){
-//			String headerName = headers.nextElement();
-//			post.addHeader(headerName, request.getHeader(headerName));
-//		}	
 				
 		post.addHeader("Authorization", "TOKEN "+getUserToken());
 		post.addHeader("Content-Type", "application/json");
