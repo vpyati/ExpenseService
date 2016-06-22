@@ -34,12 +34,15 @@ public class TwilioProxy {
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String forward(HttpServletRequest request, HttpServletResponse servletResponse) { 		
-		
+		logger.info("Entering the Twilio method");
 		try {
 			HttpResponse response = invokeEbayService(request);
+			logger.info("Response status fromo imageclean up = "+response.getStatusLine().getStatusCode());
 			HttpEntity entity = response.getEntity();
 			servletResponse.setContentType("application/xml");
-			return EntityUtils.toString(entity, "UTF-8");
+			String resString =  EntityUtils.toString(entity, "UTF-8");
+			logger.info("REsponse from twilo proxy = "+resString);
+			return resString;
 			
 		} catch (Exception e) {
 			logger.error("Unable to invoke ebay service", e);
@@ -85,7 +88,9 @@ public class TwilioProxy {
 		
 		ObjectMapper mapper = new ObjectMapper();
 		String json = mapper.writeValueAsString(parameters);
-				
+		
+		logger.info("Set the json to http post "+json);
+		
 		try {
 			post.setEntity(new StringEntity(json));		
 		} catch (UnsupportedEncodingException e) {
@@ -95,18 +100,22 @@ public class TwilioProxy {
 	}
 
 	private void addHeaders(HttpPost post, HttpServletRequest request) {
-		if(request.getHeaderNames() == null ){
-			return;
-		}
-		
-		Enumeration<String> headers = request.getHeaderNames();
-		while(headers.hasMoreElements()){
-			String headerName = headers.nextElement();
-			post.addHeader(headerName, request.getHeader(headerName));
-		}	
+//		if(request.getHeaderNames() == null ){
+//			return;
+//		}
+//		
+//		Enumeration<String> headers = request.getHeaderNames();
+//		while(headers.hasMoreElements()){
+//			String headerName = headers.nextElement();
+//			post.addHeader(headerName, request.getHeader(headerName));
+//		}	
 				
 		post.addHeader("Authorization", "TOKEN "+getUserToken());
+		post.addHeader("Content-Type", "application/json");
+		post.addHeader("Accept", "application/json");
+
 	}
+	
 
 	private String getUserToken() {
 		
