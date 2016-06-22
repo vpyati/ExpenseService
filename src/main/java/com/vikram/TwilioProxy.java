@@ -1,9 +1,7 @@
 package com.vikram;
 
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -12,18 +10,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vikram.model.TwilioParameters;
 
 @RestController
 @RequestMapping("/open/twilio")
@@ -39,6 +38,7 @@ public class TwilioProxy {
 		try {
 			HttpResponse response = invokeEbayService(request);
 			HttpEntity entity = response.getEntity();
+			servletResponse.setContentType("application/xml");
 			return EntityUtils.toString(entity, "UTF-8");
 			
 		} catch (Exception e) {
@@ -61,12 +61,14 @@ public class TwilioProxy {
 	}
 
 	private void addParameters(HttpPost post, HttpServletRequest request) throws Exception {
+		
+		TwilioParameters parameters = new TwilioParameters();
+		
 		Map<String, String[]> paramMap = request.getParameterMap();
 		if(paramMap == null || paramMap.isEmpty()){
 			return;
 		}
 		
-		List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
 		for(Entry<String, String[]> entry:paramMap.entrySet()){
 			
 			String paramName = entry.getKey();
@@ -77,12 +79,15 @@ public class TwilioProxy {
 			}
 			
 			for(String paramValue:paramValues){
-				urlParameters.add(new BasicNameValuePair(paramName, paramValue));
+				parameters.getParameters().put(paramName, paramValue);
 			}			
 		}
 		
+		ObjectMapper mapper = new ObjectMapper();
+		String json = mapper.writeValueAsString(parameters);
+				
 		try {
-			post.setEntity(new UrlEncodedFormEntity(urlParameters));		
+			post.setEntity(new StringEntity(json));		
 		} catch (UnsupportedEncodingException e) {
 			throw new Exception(e);
 		}
