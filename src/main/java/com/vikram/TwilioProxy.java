@@ -47,14 +47,13 @@ public class TwilioProxy {
 	private KeyValueStore keyValueStore;
 
 	
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET, produces="application/xml")
 	public String forward(HttpServletRequest request, HttpServletResponse servletResponse) { 		
 		logger.info("Entering the Twilio method");
 		try {
 			HttpResponse response = invokeEbayService(request,SERVICE_ENDPOINT);
 			logger.info("Response status fromo imageclean up = "+response.getStatusLine().getStatusCode());
 			HttpEntity entity = response.getEntity();
-			servletResponse.setContentType("application/xml");
 			String resString =  EntityUtils.toString(entity, "UTF-8");
 			logger.info("REsponse from twilo proxy = "+resString);
 			return resString;
@@ -67,7 +66,7 @@ public class TwilioProxy {
 	}
 
 	
-	@RequestMapping(value="test", method = RequestMethod.GET)
+	@RequestMapping(value="test", method = RequestMethod.GET, produces="application/xml")
 	public String test(HttpServletRequest request, HttpServletResponse servletResponse) { 		
 		logger.info("Entering the Twilio method for test");
 		if(keyValueStore == null){
@@ -77,7 +76,6 @@ public class TwilioProxy {
 		if(value == null || value.isEmpty()){
 			return getBackup();
 		}
-		servletResponse.setContentType("application/xml");
 		return value;
 		
 		
@@ -113,14 +111,13 @@ public class TwilioProxy {
 		
 	}
 	
-	@RequestMapping(value= "/confirm",method = RequestMethod.GET)
+	@RequestMapping(value= "/confirm",method = RequestMethod.GET, produces="application/xml")
 	public String confirm(HttpServletRequest request, HttpServletResponse servletResponse) { 		
 		logger.info("Entering the Twilio confirm method");
 		try {
 			HttpResponse response = invokeEbayService(request,SERVICE_ENDPOINT_CONFIRM);
 			logger.info("Response status fromo imageclean up = "+response.getStatusLine().getStatusCode());
 			HttpEntity entity = response.getEntity();
-			servletResponse.setContentType("application/xml");
 			String resString =  EntityUtils.toString(entity, "UTF-8");
 			logger.info("REsponse from twilo proxy = "+resString);
 			return resString;
