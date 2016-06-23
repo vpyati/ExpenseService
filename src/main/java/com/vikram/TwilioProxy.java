@@ -41,7 +41,7 @@ public class TwilioProxy {
 	
 	private static String XML_START = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 	
-	private static String ITEM_TITLE = "Apple iPhone 5c 16GB  White AT&T Smartphone";
+	private static String ITEM_TITLE = "Apple iPhone 5c 16GB  White AT&amp;T Smartphone";
 	
 	@Autowired
 	private KeyValueStore keyValueStore;
