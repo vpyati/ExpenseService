@@ -16,11 +16,18 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.twilio.sdk.verbs.Gather;
+import com.twilio.sdk.verbs.Pause;
+import com.twilio.sdk.verbs.Say;
+import com.twilio.sdk.verbs.TwiMLException;
+import com.twilio.sdk.verbs.TwiMLResponse;
+import com.vikram.db.KeyValueStore;
 import com.vikram.model.TwilioParameters;
 
 @RestController
@@ -31,6 +38,13 @@ public class TwilioProxy {
 	
 	private static String SERVICE_ENDPOINT = "http://imagecleanup.ebay.com/imagecleanup/v1/listdial";
 	private static String SERVICE_ENDPOINT_CONFIRM = "http://imagecleanup.ebay.com/imagecleanup/v1/listconfirm";
+	
+	private static String XML_START = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+	
+	private static String ITEM_TITLE = "Apple iPhone 5c 16GB  White AT&T Smartphone";
+	
+	@Autowired
+	private KeyValueStore keyValueStore;
 
 	
 	@RequestMapping(method = RequestMethod.GET)
@@ -52,6 +66,53 @@ public class TwilioProxy {
 		}
 	}
 
+	
+	@RequestMapping(value="test", method = RequestMethod.GET)
+	public String test(HttpServletRequest request, HttpServletResponse servletResponse) { 		
+		logger.info("Entering the Twilio method for test");
+		if(keyValueStore == null){
+			return getBackup();
+		}
+		String value = keyValueStore.getValue("twiloxml");
+		if(value == null || value.isEmpty()){
+			return getBackup();
+		}
+		servletResponse.setContentType("application/xml");
+		return value;
+		
+		
+	}
+	
+	private String getBackup(){
+	
+	    TwiMLResponse twiml = new TwiMLResponse();
+
+    	try {
+ 	
+        Gather gather = new Gather();
+        gather.setAction("www.trackthespending.in/services/open/twilio/confirm");
+        gather.setMethod("GET");
+        gather.setNumDigits(1);
+        gather.setTimeout(10);
+        twiml.append(gather);
+        
+        gather.append(new Say("You are listing the following item"));
+        gather.append(getPause(1));
+        gather.append(new Say(ITEM_TITLE));
+        gather.append(getPause(1));
+        gather.append(new Say("Press one to confirm"));
+        
+        twiml.append(new Say("We didn't receive any input. Goodbye!"));
+        
+        } catch (TwiMLException e) {
+            e.printStackTrace();
+        }
+
+       return XML_START+twiml.toXML();
+  
+		
+	}
+	
 	@RequestMapping(value= "/confirm",method = RequestMethod.GET)
 	public String confirm(HttpServletRequest request, HttpServletResponse servletResponse) { 		
 		logger.info("Entering the Twilio confirm method");
@@ -139,6 +200,12 @@ public class TwilioProxy {
 		return token == null?"":token;		
 	}
 
+	private Pause getPause(int l) {
+		Pause pause = new Pause();
+        pause.setLength(l);
+		return pause;
+	}
+    
 
 	
 	
