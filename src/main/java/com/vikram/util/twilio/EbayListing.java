@@ -1,5 +1,7 @@
 package com.vikram.util.twilio;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +28,8 @@ import com.vikram.util.ShippingRecoHelper;
 
 public class EbayListing {
 	
-	private static String ITEM_TITLE = "Apple iPhone 5c 16GB  White AT&amp;T Smartphone";
+	private static String ITEM_TITLE = "Apple iPhone 5s 16GB  Space Gray AT&amp;T Smartphone";
+	private static String ITEM_TITLE_RECO = "Apple iPhone 5s 16GB  Space Gray AT&T Smartphone";
 	private static String EBAY_API_ENDPOINT = "https://api.ebay.com/wsapi";
 	private static Logger logger = LoggerFactory.getLogger(EbayListing.class);
 	
@@ -132,10 +135,25 @@ public class EbayListing {
 		return apiContext;
 	}
 
-	private static void addPriceSection(ItemType item) {
+	private void addPriceSection(ItemType item) {
+		PriceReco price = null;
+		try {
+			price = new PriceReco(epid, URLEncoder.encode(ITEM_TITLE_RECO, "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			logger.error("Unable to invoke price reco");
+		}
 		
-		AmountType startPrice = getAmount(102.0);
-		AmountType binPrice = getAmount(190.0);
+		AmountType startPrice = null;
+		AmountType binPrice = null;
+		if(price == null){
+			startPrice = getAmount(198.0);
+			binPrice = getAmount(328.0);			
+		}else{
+			startPrice = getAmount(price.getStartPrice());
+			binPrice = getAmount(price.getBinPrice());	
+		}
+		
+
 		item.setStartPrice(startPrice);
 		item.setBuyItNowPrice(binPrice);
 
