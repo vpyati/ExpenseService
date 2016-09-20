@@ -29,6 +29,8 @@ import com.twilio.sdk.verbs.TwiMLException;
 import com.twilio.sdk.verbs.TwiMLResponse;
 import com.vikram.db.KeyValueStore;
 import com.vikram.model.TwilioParameters;
+import com.vikram.util.UserDetailBean;
+import com.vikram.util.twilio.LocalDB;
 
 @RestController
 @RequestMapping("/open/twilio")
@@ -47,22 +49,38 @@ public class TwilioProxy {
 	private KeyValueStore keyValueStore;
 
 	
+	@RequestMapping(value="addUser",method = RequestMethod.POST)
+	public boolean dbAddUserData(UserDetailBean user) { 	
+
+		return LocalDB.getInstance().addUser(user);
+	} 
+	
+	
 	@RequestMapping(method = RequestMethod.GET, produces="application/xml")
-	public String forward(HttpServletRequest request, HttpServletResponse servletResponse) { 		
-		logger.info("Entering the Twilio method");
-		try {
-			HttpResponse response = invokeEbayService(request,SERVICE_ENDPOINT);
-			logger.info("Response status fromo imageclean up = "+response.getStatusLine().getStatusCode());
-			HttpEntity entity = response.getEntity();
-			String resString =  EntityUtils.toString(entity, "UTF-8");
-			logger.info("REsponse from twilo proxy = "+resString);
-			return resString;
-			
-		} catch (Exception e) {
-			logger.error("Unable to invoke ebay service", e);
-			servletResponse.setStatus(500);
+	public String forward(HttpServletRequest request, HttpServletResponse servletResponse) { 
+		
+//		logger.info("Entering the Twilio method");
+//		try {
+//			HttpResponse response = invokeEbayService(request,SERVICE_ENDPOINT);
+//			logger.info("Response status fromo imageclean up = "+response.getStatusLine().getStatusCode());
+//			HttpEntity entity = response.getEntity();
+//			String resString =  EntityUtils.toString(entity, "UTF-8");
+//			logger.info("REsponse from twilo proxy = "+resString);
+//			return resString;
+//			
+//		} catch (Exception e) {
+//			logger.error("Unable to invoke ebay service", e);
+//			servletResponse.setStatus(500);
+//			return "";
+//		}
+		
+		logger.info("Entering the Twilio method changed approach");
+		TwilioParameters parameters = getTwilioParameters(request);
+		if(parameters == null){
 			return "";
 		}
+		String response = listDialActions(parameters);
+		return response==null?"":response;
 	}
 
 	
@@ -143,11 +161,28 @@ public class TwilioProxy {
 
 	private void addParameters(HttpPost post, HttpServletRequest request) throws Exception {
 		
+		TwilioParameters parameters = getTwilioParameters(request);
+		
+		ObjectMapper mapper = new ObjectMapper();
+		String json = mapper.writeValueAsString(parameters);
+		
+		logger.info("Set the json to http post "+json);
+		
+		try {
+			post.setEntity(new StringEntity(json));		
+		} catch (UnsupportedEncodingException e) {
+			throw new Exception(e);
+		}
+		
+	}
+
+
+	private TwilioParameters getTwilioParameters(HttpServletRequest request) {
 		TwilioParameters parameters = new TwilioParameters();
 		
 		Map<String, String[]> paramMap = request.getParameterMap();
 		if(paramMap == null || paramMap.isEmpty()){
-			return;
+			return null;
 		}
 		
 		for(Entry<String, String[]> entry:paramMap.entrySet()){
@@ -163,18 +198,7 @@ public class TwilioProxy {
 				parameters.getParameters().put(paramName, paramValue);
 			}			
 		}
-		
-		ObjectMapper mapper = new ObjectMapper();
-		String json = mapper.writeValueAsString(parameters);
-		
-		logger.info("Set the json to http post "+json);
-		
-		try {
-			post.setEntity(new StringEntity(json));		
-		} catch (UnsupportedEncodingException e) {
-			throw new Exception(e);
-		}
-		
+		return parameters;
 	}
 
 	private void addHeaders(HttpPost post, HttpServletRequest request) {
@@ -204,6 +228,57 @@ public class TwilioProxy {
 	}
     
 
+ private String listDialActions(TwilioParameters parameters) { 	
+    	
+    	// Create a TwiML response and add our friendly message.
+        TwiMLResponse twiml = new TwiMLResponse();
+
+    	String fromPhone = parameters.getParameters().get("From");
+    	
+    	UserDetailBean userDetail = LocalDB.getInstance().getUser(fromPhone);
+    	String token = userDetail == null?null:userDetail.getToken();
+    	if(token == null){
+    		twiml = getEnrolmentMessage();
+    		return XML_START+twiml.toXML();
+    	}
+        
+    	try {
+ 	
+        Gather gather = new Gather();
+        gather.setAction("http://www.trackthespending.in/services/open/twilio/confirm");
+        gather.setMethod("GET");
+        gather.setNumDigits(1);
+        twiml.append(gather);
+        
+        gather.append(new Say("You are listing the following item"));
+        gather.append(getPause(1));
+        gather.append(new Say(ITEM_TITLE));
+        gather.append(getPause(1));
+        gather.append(new Say("Press one to confirm"));
+        
+        twiml.append(new Say("We didn't receive any input. Goodbye!"));
+        
+        } catch (TwiMLException e) {
+            e.printStackTrace();
+        }
+
+       return XML_START+twiml.toXML();
+    }
 	
-	
+	private TwiMLResponse getEnrolmentMessage() {
+		TwiMLResponse twiml = new TwiMLResponse();
+		try {
+			twiml.append(new Say(
+					"You have not enrolled to the Phone listing program"));
+			twiml.append(getPause(1));
+			twiml.append(new Say("Please visit the eBay website to enrol"));
+			twiml.append(getPause(1));
+			twiml.append(new Say("Goodbye !"));
+
+		} catch (TwiMLException e) {
+			e.printStackTrace();
+		}
+		return twiml;
+
+	}
 }

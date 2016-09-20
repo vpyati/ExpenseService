@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ExpenseService</groupId>
 	<artifactId>ExpenseService</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<properties>
 		<cxf.version>3.0.4</cxf.version>
@@ -116,6 +116,11 @@
       <groupId>com.twilio.sdk</groupId>
       <artifactId>twilio-java-sdk</artifactId>
       <version>3.3.15</version>
+    </dependency>
+ 	<dependency>
+      <groupId>com.vikram.ebaysdk</groupId>
+      <artifactId>981</artifactId>
+      <version>0.0.4-SNAPSHOT</version>
     </dependency>
   
 	</dependencies>
