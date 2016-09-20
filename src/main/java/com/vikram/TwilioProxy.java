@@ -17,6 +17,7 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,6 +31,7 @@ import com.twilio.sdk.verbs.TwiMLResponse;
 import com.vikram.db.KeyValueStore;
 import com.vikram.model.TwilioParameters;
 import com.vikram.util.UserDetailBean;
+import com.vikram.util.twilio.EbayListing;
 import com.vikram.util.twilio.LocalDB;
 
 @RestController
@@ -50,7 +52,7 @@ public class TwilioProxy {
 
 	
 	@RequestMapping(value="addUser",method = RequestMethod.POST)
-	public boolean dbAddUserData(UserDetailBean user) { 	
+	public boolean dbAddUserData(@RequestBody() UserDetailBean user) { 	
 
 		return LocalDB.getInstance().addUser(user);
 	} 
@@ -132,19 +134,26 @@ public class TwilioProxy {
 	@RequestMapping(value= "/confirm",method = RequestMethod.GET, produces="application/xml")
 	public String confirm(HttpServletRequest request, HttpServletResponse servletResponse) { 		
 		logger.info("Entering the Twilio confirm method");
-		try {
-			HttpResponse response = invokeEbayService(request,SERVICE_ENDPOINT_CONFIRM);
-			logger.info("Response status fromo imageclean up = "+response.getStatusLine().getStatusCode());
-			HttpEntity entity = response.getEntity();
-			String resString =  EntityUtils.toString(entity, "UTF-8");
-			logger.info("REsponse from twilo proxy = "+resString);
-			return resString;
-			
-		} catch (Exception e) {
-			logger.error("Unable to invoke ebay service", e);
-			servletResponse.setStatus(500);
+//		try {
+//			HttpResponse response = invokeEbayService(request,SERVICE_ENDPOINT_CONFIRM);
+//			logger.info("Response status fromo imageclean up = "+response.getStatusLine().getStatusCode());
+//			HttpEntity entity = response.getEntity();
+//			String resString =  EntityUtils.toString(entity, "UTF-8");
+//			logger.info("REsponse from twilo proxy = "+resString);
+//			return resString;
+//			
+//		} catch (Exception e) {
+//			logger.error("Unable to invoke ebay service", e);
+//			servletResponse.setStatus(500);
+//			return "";
+//		}
+		
+		TwilioParameters parameters = getTwilioParameters(request);
+		if(parameters == null){
 			return "";
 		}
+		String response = listConfirm(parameters);
+		return response == null?"":response;
 	}
 
 	
@@ -234,6 +243,15 @@ public class TwilioProxy {
         TwiMLResponse twiml = new TwiMLResponse();
 
     	String fromPhone = parameters.getParameters().get("From");
+    	if(fromPhone == null){
+    		fromPhone = parameters.getParameters().get("FROM");
+    	}
+    	
+    	if(fromPhone == null){
+    		logger.info("Unable to get FROM phone number");
+    	}else{
+    		logger.info("From phone "+fromPhone);
+    	}
     	
     	UserDetailBean userDetail = LocalDB.getInstance().getUser(fromPhone);
     	String token = userDetail == null?null:userDetail.getToken();
@@ -279,6 +297,59 @@ public class TwilioProxy {
 			e.printStackTrace();
 		}
 		return twiml;
+	}
+	
+	public String listConfirm(TwilioParameters parameters) { 	
+    	TwiMLResponse twiml;
+    	String fromPhone = parameters.getParameters().get("From");
+    	
+    	UserDetailBean userDetail = LocalDB.getInstance().getUser(fromPhone);
+    	String token = userDetail==null?null:userDetail.getToken();
+    	if(token == null){
+    		twiml = getEnrolmentMessage();
+    		return XML_START+twiml.toXML();
+    	}
+    	
+    	EbayListing listing = new EbayListing(token, userDetail.getPaypalId(), "168553410");
+    	String itemId = listing.list();
+    	    	
+    	if("-1".equals(itemId)){
+    		twiml = getFailureMessage();
+    	}else{
+            twiml = getSuccessMessage();
+    	}
+  
+       return XML_START+twiml.toXML();
+    }
+	
+	private TwiMLResponse getFailureMessage() {
+		TwiMLResponse twiml = new TwiMLResponse();
+        try {
+			twiml.append(new Say("Sorry, we are unable to process your request at the momemt "));
+			twiml.append(getPause(1));
+			twiml.append(new Say("Please try again later"));
+		} catch (TwiMLException e) {
+			e.printStackTrace();
+		}
+        return twiml;
+	}
 
+
+
+	private TwiMLResponse getSuccessMessage() {
+		TwiMLResponse twiml = new TwiMLResponse();
+
+    	try {
+            twiml.append(new Say("Congratulations!!"));
+            twiml.append(getPause(1));
+            twiml.append(new Say("You have successfully listed the item"));
+            twiml.append(getPause(1));
+            twiml.append(new Say("Please visit My Ebay to check your listing"));
+            twiml.append(getPause(1));
+            twiml.append(new Say("GoodBye !"));
+        } catch (TwiMLException e) {
+            e.printStackTrace();
+        }
+		return twiml;
 	}
 }

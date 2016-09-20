@@ -106,10 +106,7 @@ public class EbayCallHelper {
 		input = ConsoleUtil
 				.readString("Enter your eBay Authentication Token: ");
 		cred.seteBayToken(input);
-		// set Api Server Url
-		input = ConsoleUtil
-				.readString("Enter eBay SOAP server URL (e.g., https://api.ebay.com/wsapi): ");
-		apiContext.setApiServerUrl(input);
+		apiContext.setApiServerUrl("https://api.ebay.com/wsapi");
 
 		return apiContext;
 	}
@@ -190,7 +187,7 @@ public class EbayCallHelper {
         item.setSite(SiteCodeType.US);
         item.setCurrency(CurrencyCodeType.USD);
         item.setListingType(ListingTypeCodeType.AUCTION);
-        item.setTitle(ConsoleUtil.readString("Title: "));
+       // item.setTitle(ConsoleUtil.readString("Title: "));
         item.setDescription("iphone 6s with 64 gb and gold case.In a very good condition.List its");
         item.setConditionID(1000);
         item.setCountry(CountryCodeType.US);
@@ -255,7 +252,8 @@ public class EbayCallHelper {
  private static void addProductDetails(ItemType item){
     	 
     	 ProductListingDetailsType productlistingDetailsType = new ProductListingDetailsType();
-    	 productlistingDetailsType.setUPC("885909741496");
+    	 productlistingDetailsType.setProductReferenceID("168553410");
+    	 //productlistingDetailsType.setUPC("885909741496");
     	 productlistingDetailsType.setIncludeStockPhotoURL(true);
     	 productlistingDetailsType.setUseFirstProduct(true);
     	 productlistingDetailsType.setUseStockPhotoURLAsGallery(true);

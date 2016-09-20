@@ -11,7 +11,7 @@ import com.ebay.soap.eBLBaseComponents.ShippingTypeCodeType;
 
 public class ShippingRecoHelper {
 	
-	public static ShippingDetailsType createShippingDetails() throws Exception {
+	public static ShippingDetailsType createShippingDetails() {
         // Shipping details.
         ShippingDetailsType sd = new ShippingDetailsType();
 
@@ -30,7 +30,7 @@ public class ShippingRecoHelper {
         at.setValue(8.0);
         st1.setShippingServiceAdditionalCost(at);
         at = new AmountType();
-        at.setValue(1);
+        at.setValue(8.0);
         st1.setShippingServiceCost(at);
         st1.setShippingServicePriority(new Integer(1));
         at = new AmountType();
@@ -46,4 +46,5 @@ public class ShippingRecoHelper {
 
         return sd;
     }
+	
 }
