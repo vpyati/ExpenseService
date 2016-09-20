@@ -28,8 +28,8 @@ import com.vikram.util.ShippingRecoHelper;
 
 public class EbayListing {
 	
-	private static String ITEM_TITLE = "Apple iPhone 5s 16GB  Space Gray AT&amp;T Smartphone";
-	private static String ITEM_TITLE_RECO = "Apple iPhone 5s 16GB  Space Gray AT&T Smartphone";
+	private static String ITEM_TITLE = "Apple iPhone 5c 16GB  White AT&amp;T Smartphone";
+	private static String ITEM_TITLE_RECO = "Apple iPhone 5c 16GB  White AT&T Smartphone"; 
 	private static String EBAY_API_ENDPOINT = "https://api.ebay.com/wsapi";
 	private static Logger logger = LoggerFactory.getLogger(EbayListing.class);
 	
@@ -146,8 +146,8 @@ public class EbayListing {
 		AmountType startPrice = null;
 		AmountType binPrice = null;
 		if(price == null){
-			startPrice = getAmount(198.0);
-			binPrice = getAmount(328.0);			
+			startPrice = getAmount(96.0);
+			binPrice = getAmount(181.0);			
 		}else{
 			startPrice = getAmount(price.getStartPrice());
 			binPrice = getAmount(price.getBinPrice());	

@@ -302,6 +302,10 @@ public class TwilioProxy {
 	public String listConfirm(TwilioParameters parameters) { 	
     	TwiMLResponse twiml;
     	String fromPhone = parameters.getParameters().get("From");
+    	if(fromPhone == null){
+    		fromPhone = parameters.getParameters().get("FROM");
+    	}
+    	
     	
     	UserDetailBean userDetail = LocalDB.getInstance().getUser(fromPhone);
     	String token = userDetail==null?null:userDetail.getToken();
@@ -310,7 +314,7 @@ public class TwilioProxy {
     		return XML_START+twiml.toXML();
     	}
     	
-    	EbayListing listing = new EbayListing(token, userDetail.getPaypalId(), "168553410");
+    	EbayListing listing = new EbayListing(token, userDetail.getPaypalId(), "168513369");
     	String itemId = listing.list();
     	    	
     	if("-1".equals(itemId)){

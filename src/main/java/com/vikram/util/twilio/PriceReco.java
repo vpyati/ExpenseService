@@ -8,8 +8,8 @@ import org.json.simple.parser.JSONParser;
 
 public class PriceReco {
 	
-	private double startPrice = 198.0;;
-	private double binPrice = 328.0; 
+	private double startPrice = 96.0;;
+	private double binPrice = 181.0; 
 	private HttpClientTwilio client = new HttpClientTwilio();
 	
 	private static String PRICE_URL = "http://www.ebay.com/s/phone/price?sherpaTitle=$title&ePid=$epid&productReferenceId=$epid&condition=1000";
@@ -106,10 +106,10 @@ public class PriceReco {
 	
 	public static void main(String[] args) throws UnsupportedEncodingException{
 		
-		String ITEM_TITLE_RECO = "Apple iPhone 5s 16GB  Space Gray AT&T Smartphone";
+		String ITEM_TITLE_RECO = "Apple iPhone 5c 16GB  White AT&T Smartphone";
 
 
-		PriceReco reco = new PriceReco("168553410",URLEncoder.encode(ITEM_TITLE_RECO, "UTF-8"));
+		PriceReco reco = new PriceReco("168513369",URLEncoder.encode(ITEM_TITLE_RECO, "UTF-8"));
 		double sp = reco.getStartPrice();
 		double bp = reco.getBinPrice();
 		
